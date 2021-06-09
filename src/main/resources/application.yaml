@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    schema: classpath:schema.sql
+    initialization-mode: always
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: cube0216!
+
+server:
+  port: 8443
+  ssl:
+    enabled: true # Uses self-signed certificate because no key-store configuration is specified.
+armeria:
+  ports:
+    - port: 8443    # Port 8443 will serve HTTPS, HTTP and PROXY protocol.
+      protocols:
+        - http
+        - proxy
+    - port: 8080    # Port 8080 will serve only HTTP.
+      protocol: http
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: ########
+
